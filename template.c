@@ -179,7 +179,8 @@ int parse_argcmd(Tokens *ts, Elements *elements) {
     //int n_arguments = elements->n_arguments;
     Command *command;
     Command *commands = elements->commands;
-    //Argument *arguments = elements->arguments;
+    Argument *argument;
+    Argument *arguments = elements->arguments;
 
     for (i=0; i < n_commands; i++) {
         command = &commands[i];
@@ -189,6 +190,13 @@ int parse_argcmd(Tokens *ts, Elements *elements) {
             return 0;
         }
     }
+
+    for (i=0; i < elements->n_arguments; i++) {
+        argument = &arguments[i];
+        argument->value = ts->current;
+        tokens_move(ts);
+    }
+
     // not implemented yet, just skip for now
     // parsed.append(Argument(None, tokens.move()))
     /*fprintf(stderr, "! argument '%s' has been ignored\n", ts->current);
@@ -196,7 +204,7 @@ int parse_argcmd(Tokens *ts, Elements *elements) {
     for (i=0; i<ts->argc ; i++)
         fprintf(stderr, "%s ", ts->argv[i]);
     fprintf(stderr, "'\n");*/
-    tokens_move(ts);
+    //tokens_move(ts);
     return 0;
 }
 
